@@ -20,8 +20,8 @@ class MyWidget(QtWidgets.QWidget):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
-
-    widget = MyWidget()
+    collisions = collisions.Collision()
+    widget = MyWidget(collisions)
     widget.show()
 
     sys.exit(app.exec())
