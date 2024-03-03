@@ -15,9 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QLabel, QMainWindow, QMenuBar,
-    QPushButton, QSizePolicy, QSlider, QStatusBar,
-    QTextEdit, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QMainWindow,
+    QMenuBar, QPushButton, QSizePolicy, QSlider,
+    QStatusBar, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -38,16 +38,9 @@ class Ui_MainWindow(object):
 
         self.Editables.addWidget(self.massDisplay)
 
-        self.massEditor = QTextEdit(self.verticalLayoutWidget)
-        self.massEditor.setObjectName(u"massEditor")
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.massEditor.sizePolicy().hasHeightForWidth())
-        self.massEditor.setSizePolicy(sizePolicy)
-        self.massEditor.setMaximumSize(QSize(16777215, 30))
-
-        self.Editables.addWidget(self.massEditor)
+        self.lineEdit = QLineEdit(self.verticalLayoutWidget)
+        self.lineEdit.setObjectName(u"lineEdit")
+        self.Editables.addWidget(self.lineEdit)
 
         self.speedDisplay = QLabel(self.verticalLayoutWidget)
         self.speedDisplay.setObjectName(u"speedDisplay")
@@ -56,7 +49,11 @@ class Ui_MainWindow(object):
 
         self.speedSlider = QSlider(self.verticalLayoutWidget)
         self.speedSlider.setObjectName(u"speedSlider")
+        self.speedSlider.setMinimum(1)
+        self.speedSlider.setMaximum(10)
         self.speedSlider.setOrientation(Qt.Horizontal)
+        self.speedSlider.setTickPosition(QSlider.TicksAbove)
+        self.speedSlider.setTickInterval(0)
 
         self.Editables.addWidget(self.speedSlider)
 

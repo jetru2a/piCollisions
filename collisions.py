@@ -34,16 +34,23 @@ class Collisions:
         self.rightRect.pos = RIGHT_POS
         self.rightRect.speed = RIGHT_SPEED
     
-    def animate(self,speed):
-        for i in range(speed):
-            self.leftRect.pos += self.leftRect.speed/10000
-            self.rightRect.pos += self.rightRect.speed/10000
-            if(self.leftRect.pos + self.rectWidth >= self.rightRect.pos):
-                self.leftRect.speed, self.rightRect.speed = collide(self.leftRect, self.rightRect)
-                self.estimation += 1
-                self.rightRect.pos = self.leftRect.pos + self.rectWidth
-            if(self.leftRect.pos <= 0):
-                self.leftRect.pos = 0
-                self.leftRect.speed *= -1
-                self.estimation += 1
+    def animate(self):
+        precision = self.rightRect.mass
+
+        nextLeft = self.leftRect.pos + self.leftRect.speed
+        nextRight = self.rightRect.pos + self.rightRect.speed
+        if (nextLeft < 0 or nextLeft + self.rectWidth >= nextRight):
+            for i in range(precision):
+                self.leftRect.pos += self.leftRect.speed/precision
+                self.rightRect.pos += self.rightRect.speed/precision
+                if(self.leftRect.pos + self.rectWidth >= self.rightRect.pos):
+                    self.leftRect.speed, self.rightRect.speed = collide(self.leftRect, self.rightRect)
+                    self.estimation += 1
+                    self.rightRect.pos = self.leftRect.pos + self.rectWidth
+                if(self.leftRect.pos <= 0):
+                    self.leftRect.pos = 0
+                    self.leftRect.speed *= -1
+                    self.estimation += 1
+        else :
+            self.leftRect.pos, self.rightRect.pos = nextLeft, nextRight
         return self.leftRect.pos, self.rightRect.pos
