@@ -15,17 +15,6 @@ SCREEN_XPOS = 700
 SCREEN_YPOS = 250
 
 
-# class Painter(QWidget):
-#     def __init__(self, parent=None, ):
-#         super().__init__(parent)
-
-
-#     def paintEvent(self, event: QPaintEvent):
-#         leftPos, rightPos = self.simulation.animate()
-#         leftRect, rightRect = QRect(leftPos,100,RECT_WIDTH,RECT_HEIGHT), QRect(100,100,50,50)
-#         QPainter.drawRect(leftRect)
-#         QPainter.drawRect(rightRect)
-
 class MainWindowCol(QtWidgets.QMainWindow):
     def __init__(self,):
         super().__init__()
@@ -61,18 +50,22 @@ class UI(QtWidgets.QMainWindow):
 
     def paintEvent(self, event: QPaintEvent):
         painter = QPainter(self.pixmap)
-        painter.drawEllipse(0,0,128,128)
-        painter.end()
-        self.animate()
-        self.ui.animationLabel.setPixmap(self.pixmap)
-
-    def animate(self):
         leftPos, rightPos = self.simulation.animate(1)
+        self.pixmap.fill(QColor(255,255,255))
+        painter.drawRect(100 + leftPos, 100, RECT_WIDTH, RECT_HEIGHT)
+        painter.drawRect(100 + rightPos, 100, RECT_WIDTH, RECT_HEIGHT)
+        painter.end()
+        self.ui.animationLabel.setPixmap(self.pixmap)
+        self.ui.piDisplay.setText(f"current value of pi : {self.simulation.estimation}")
+
+    #def animate(self):
+    #    leftPos, rightPos = self.simulation.animate(1)
+
 
 if __name__ == "__main__":
     #app = QtWidgets.QApplication([])
     app = QtWidgets.QApplication(sys.argv)
-    collisions = collisions.Collisions()
+    collisions = collisions.Collisions(RECT_WIDTH)
     #mainWindow = MainWindowCol()
     #mainWindow.show()
     window = UI(collisions)
