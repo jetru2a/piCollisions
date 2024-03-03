@@ -4,7 +4,7 @@ RIGHT_POS = 3
 RIGHT_MASS = 10
 RIGHT_SPEED = 1
 
-def Collision(leftRect, rightRect):
+def collide(leftRect, rightRect):
     leftMass, leftSpeed = leftRect.mass, leftSpeed
     rightMass, rightSpeed = rightRect.mass, rightRect.speed
 
@@ -35,8 +35,9 @@ class Collisions:
     def animate(self,speed):
         self.leftRect.pos += self.leftRect.speed/10
         self.rightRect.pos += self.rightRect.speed/10
-        if(self.leftRect.pos >= self.rightRect):
-            self.leftRect.speed, self.rightRect.speed = Collision(self.leftRect, self.rightRect)
+        if(self.leftRect.pos >= self.rightRect.pos):
+            self.leftRect.speed, self.rightRect.speed = collide(self.leftRect, self.rightRect)
         if(self.leftRect.pos <= 0):
             self.leftRect.pos = 0
             self.leftRect.speed *= -1
+        return self.leftRect.pos, self.rightRect.pos
