@@ -16,8 +16,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QLabel, QMainWindow, QMenuBar,
-    QSizePolicy, QSlider, QStatusBar, QTextEdit,
-    QVBoxLayout, QWidget)
+    QPushButton, QSizePolicy, QSlider, QStatusBar,
+    QTextEdit, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -28,7 +28,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayoutWidget = QWidget(self.centralwidget)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
-        self.verticalLayoutWidget.setGeometry(QRect(1030, 569, 311, 241))
+        self.verticalLayoutWidget.setGeometry(QRect(1040, 569, 301, 241))
         self.Editables = QVBoxLayout(self.verticalLayoutWidget)
         self.Editables.setSpacing(0)
         self.Editables.setObjectName(u"Editables")
@@ -66,6 +66,10 @@ class Ui_MainWindow(object):
         self.piDisplay = QLabel(self.centralwidget)
         self.piDisplay.setObjectName(u"piDisplay")
         self.piDisplay.setGeometry(QRect(1040, 0, 309, 211))
+        self.restartButton = QPushButton(self.centralwidget)
+        self.restartButton.setObjectName(u"restartButton")
+        self.restartButton.setGeometry(QRect(1040, 360, 241, 29))
+        self.restartButton.setAutoDefault(False)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
@@ -86,5 +90,6 @@ class Ui_MainWindow(object):
         self.speedDisplay.setText(QCoreApplication.translate("MainWindow", u"Speed : ", None))
         self.animationLabel.setText("")
         self.piDisplay.setText(QCoreApplication.translate("MainWindow", u"current value of pi : ", None))
+        self.restartButton.setText(QCoreApplication.translate("MainWindow", u"Restart", None))
     # retranslateUi
 

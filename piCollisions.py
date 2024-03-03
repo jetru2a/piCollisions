@@ -14,29 +14,6 @@ SCREEN_WIDTH = 700
 SCREEN_XPOS = 700
 SCREEN_YPOS = 250
 
-
-class MainWindowCol(QtWidgets.QMainWindow):
-    def __init__(self,):
-        super().__init__()
-        self.setGeometry(SCREEN_XPOS, SCREEN_YPOS, SCREEN_HEIGHT, SCREEN_WIDTH)
-        self.simulation = collisions
-        self.pixmap = QPixmap(QSize(SCREEN_HEIGHT, SCREEN_WIDTH))
-        label = QLabel(self)
-        label.setPixmap(self.pixmap)
-        self.setCentralWidget(label)
-        color = QColor(0,125,10)
-        self.pixmap.fill(color)
-        #self.resize(600,600)
-        #self.left = QWidget(self)
-        #self.left.setStyleSheet("background-color:red;border-radius:15px;")
-        #self.left.resize(50, 100)
-        #self.painter = QPainter(self.simulationScreen)
-        #self.painter.drawEllipse(0,0,128,128)
-
-
-    #def animate(self):
-    #   simulationScreen = self.
-
 class UI(QtWidgets.QMainWindow):
     def __init__(self, simulation):
         super().__init__()
@@ -45,12 +22,12 @@ class UI(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
         self.pixmap = QPixmap(self.ui.animationLabel.size())
         self.pixmap.fill(QColor(255,255,255))
-        painter = QPainter(self.pixmap)
+        # painter = QPainter(self.pixmap)
         self.ui.animationLabel.setPixmap(self.pixmap)
 
     def paintEvent(self, event: QPaintEvent):
         painter = QPainter(self.pixmap)
-        leftPos, rightPos = self.simulation.animate(1)
+        leftPos, rightPos = self.simulation.animate(10000)
         self.pixmap.fill(QColor(255,255,255))
         painter.drawRect(100 + leftPos, 100, RECT_WIDTH, RECT_HEIGHT)
         painter.drawRect(100 + rightPos, 100, RECT_WIDTH, RECT_HEIGHT)
@@ -60,7 +37,6 @@ class UI(QtWidgets.QMainWindow):
 
     #def animate(self):
     #    leftPos, rightPos = self.simulation.animate(1)
-
 
 if __name__ == "__main__":
     #app = QtWidgets.QApplication([])
