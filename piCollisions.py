@@ -31,7 +31,7 @@ class UI(QtWidgets.QMainWindow):
         self.massDisplay.setText(f"Mass of right rectangle : {100}kg")
         self.speedDisplay.setText(f"speed : {1}")
         self.massEditor.setPlaceholderText("100")
-        self.massEditor.setInputMask("00000000")
+        self.massEditor.setInputMask("000000000000000")
         #self.massEditor.setInputMask("9")
         self.pixmap.fill(QColor(255,255,255))
         # painter = QPainter(self.pixmap)

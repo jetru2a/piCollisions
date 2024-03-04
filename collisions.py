@@ -41,17 +41,34 @@ class Collisions:
         nextLeft = self.leftRect.pos + self.leftRect.speed
         nextRight = self.rightRect.pos + self.rightRect.speed
         if (nextLeft < 0 or nextLeft + self.rectWidth >= nextRight):
-            for i in range(precision):
-                self.leftRect.pos += self.leftRect.speed/precision
-                self.rightRect.pos += self.rightRect.speed/precision
-                if(self.leftRect.pos + self.rectWidth >= self.rightRect.pos):
+            timeLeft = precision
+            while(timeLeft > 0):
+                nextLeft = self.leftRect.pos + timeLeft*self.leftRect.speed/precision
+                nextRight = self.rightRect.pos + timeLeft*self.rightRect.speed/precision
+                if (nextLeft > 0 and nextLeft + self.rectWidth < nextRight):
+                    self.leftRect.pos, self.rightRect.pos = nextLeft, nextRight
+                    break
+                timeUntilWallCollision = 0
+                timeUntilRectCollision = 0
+                if nextLeft < 0 and nextLeft + self.rectWidth > nextRight:
+                    timeUntilWallCollision = -self.leftRect.pos*precision/self.leftRect.speed
+                    timeUntilRectCollision = (self.rightRect.pos - self.leftRect.pos -self.rectWidth)/(self.leftRect.speed - self.rightRect.speed)*precision
+                    wallCollision = timeUntilWallCollision < timeUntilRectCollision
+                else:
+                    wallCollision = nextLeft < 0
+                if (wallCollision):
+                        self.leftRect.pos = 0
+                        self.leftRect.speed *= -1
+                        self.count += 1
+                        self.rightRect.pos += timeUntilWallCollision*self.rightRect.speed/precision
+                        timeLeft -= timeUntilWallCollision
+                else:
+                    self.leftRect.pos += timeUntilRectCollision*self.leftRect.speed/precision
+                    self.rightRect.pos += timeUntilRectCollision*self.rightRect.speed/precision
                     self.leftRect.speed, self.rightRect.speed = collide(self.leftRect, self.rightRect)
                     self.count += 1
                     self.rightRect.pos = self.leftRect.pos + self.rectWidth
-                if(self.leftRect.pos <= 0):
-                    self.leftRect.pos = 0
-                    self.leftRect.speed *= -1
-                    self.count += 1
+                    timeLeft -= timeUntilRectCollision
         else :
             self.leftRect.pos, self.rightRect.pos = nextLeft, nextRight
         return self.leftRect.pos, self.rightRect.pos
