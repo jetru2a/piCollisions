@@ -23,7 +23,7 @@ class Collisions:
         self.leftRect = Rect(LEFT_POS,LEFT_MASS,0)
         self.rightRect = Rect(RIGHT_POS,RIGHT_MASS,RIGHT_SPEED)
         self.rectWidth = rectWidth
-        self.estimation = 0
+        self.count = 0
 
     def changeMass(self, mass):
         self.rightRect.mass = mass
@@ -33,7 +33,8 @@ class Collisions:
         self.leftRect.speed = 0
         self.rightRect.pos = RIGHT_POS
         self.rightRect.speed = RIGHT_SPEED
-    
+        self.count = 0
+
     def animate(self):
         precision = self.rightRect.mass
 
@@ -45,12 +46,15 @@ class Collisions:
                 self.rightRect.pos += self.rightRect.speed/precision
                 if(self.leftRect.pos + self.rectWidth >= self.rightRect.pos):
                     self.leftRect.speed, self.rightRect.speed = collide(self.leftRect, self.rightRect)
-                    self.estimation += 1
+                    self.count += 1
                     self.rightRect.pos = self.leftRect.pos + self.rectWidth
                 if(self.leftRect.pos <= 0):
                     self.leftRect.pos = 0
                     self.leftRect.speed *= -1
-                    self.estimation += 1
+                    self.count += 1
         else :
             self.leftRect.pos, self.rightRect.pos = nextLeft, nextRight
         return self.leftRect.pos, self.rightRect.pos
+    
+    def estimation(self):
+        return self.count / 10**(len(str(self.count))-1)

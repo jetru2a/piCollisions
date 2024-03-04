@@ -13,22 +13,25 @@ SCREEN_HEIGHT = 700
 SCREEN_WIDTH = 700
 SCREEN_XPOS = 700
 SCREEN_YPOS = 250
+WALL_XPOS = 0
 
 class UI(QtWidgets.QMainWindow):
     def __init__(self, simulation):
         super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.speed = 1
         self.simulation = simulation
         self.pixmap = QPixmap(self.ui.animationLabel.size())
-        self.speedDisplay = self.ui.Editables.itemAt(2).widget()
-        self.speedSlider = self.ui.Editables.itemAt(3).widget()
-        self.massDisplay = self.ui.Editables.itemAt(0).widget()
-        self.massEditor = self.ui.Editables.itemAt(1).widget()
-        
-        self.massDisplay.setText(f"Mass of right rectangle : {100}")
+        self.massDisplay = self.ui.massDisplay
+        self.massEditor = self.ui.massEditor
+        self.speedDisplay = self.ui.speedDisplay
+        self.speedSlider = self.ui.speedSlider
+        self.restartButton = self.ui.restartButton
+
+        self.massDisplay.setText(f"Mass of right rectangle : {100}kg")
+        self.speedDisplay.setText(f"speed : {1}")
         self.massEditor.setPlaceholderText("100")
+        self.massEditor.setInputMask("00000000")
         #self.massEditor.setInputMask("9")
         self.pixmap.fill(QColor(255,255,255))
         # painter = QPainter(self.pixmap)
@@ -39,29 +42,34 @@ class UI(QtWidgets.QMainWindow):
         self.simulationTimer.timeout.connect(self.animate)
         self.simulationTimer.start()
 
+        self.restartButton.clicked.connect(self.simulation.restart)
+        self.speedSlider.valueChanged.connect(self.setSpeed)
         self.massEditor.textChanged.connect(self.changeMass)
 
     def setSpeed(self, value):
         self.speedDisplay.setText(f"speed : {value}")
+        self.simulationTimer.setInterval(10-value+1)
 
     def changeMass(self):
-        mass = int(self.massEditor.text())
+        if self.massEditor.text() == '':
+            mass = 0
+        else:
+            mass = int(self.massEditor.text())
         collisions.changeMass(mass)
         collisions.restart()
-        self.massDisplay.setText(f"Mass of right rectangle : {mass}")
+        self.massDisplay.setText(f"Mass of right rectangle : {mass}kg")
 
     def animate(self):
         painter = QPainter(self.pixmap)
         leftPos, rightPos = self.simulation.animate()
         self.pixmap.fill(QColor(255,255,255))
-        painter.drawRect(100 + leftPos, 100, RECT_WIDTH, RECT_HEIGHT)
-        painter.drawRect(100 + rightPos, 100, RECT_WIDTH, RECT_HEIGHT)
+        painter.drawRect(WALL_XPOS + leftPos, 100, RECT_WIDTH, RECT_HEIGHT)
+        painter.drawRect(WALL_XPOS + rightPos, 100, RECT_WIDTH, RECT_HEIGHT)
         painter.end()
         self.ui.animationLabel.setPixmap(self.pixmap)
-        self.ui.piDisplay.setText(f"current value of pi : {self.simulation.estimation}")
-        self.speed = self.speedSlider.value()
-        self.simulationTimer.setInterval(10-self.speed+1)
-        self.speedDisplay.setText(f"speed : {self.speed}")
+
+        piEstimation = self.simulation.estimation()
+        self.ui.piDisplay.setText(f"current value of pi : {piEstimation}")
 
 if __name__ == "__main__":
     #app = QtWidgets.QApplication([])

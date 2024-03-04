@@ -17,60 +17,55 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QMainWindow,
     QMenuBar, QPushButton, QSizePolicy, QSlider,
-    QStatusBar, QVBoxLayout, QWidget)
+    QStatusBar, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1350, 868)
+        MainWindow.resize(959, 555)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.verticalLayoutWidget = QWidget(self.centralwidget)
-        self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
-        self.verticalLayoutWidget.setGeometry(QRect(1040, 569, 301, 241))
-        self.Editables = QVBoxLayout(self.verticalLayoutWidget)
-        self.Editables.setSpacing(0)
-        self.Editables.setObjectName(u"Editables")
-        self.Editables.setContentsMargins(0, 0, 0, 0)
-        self.massDisplay = QLabel(self.verticalLayoutWidget)
-        self.massDisplay.setObjectName(u"massDisplay")
-
-        self.Editables.addWidget(self.massDisplay)
-
-        self.lineEdit = QLineEdit(self.verticalLayoutWidget)
-        self.lineEdit.setObjectName(u"lineEdit")
-        self.Editables.addWidget(self.lineEdit)
-
-        self.speedDisplay = QLabel(self.verticalLayoutWidget)
+        self.animationLabel = QLabel(self.centralwidget)
+        self.animationLabel.setObjectName(u"animationLabel")
+        self.animationLabel.setGeometry(QRect(30, 30, 901, 271))
+        self.animationLabel.setStyleSheet(u"border-style: solid;\n"
+"border-width: 5px;\n"
+"border-color: rgb(0, 0, 0);\n"
+"")
+        self.piDisplay = QLabel(self.centralwidget)
+        self.piDisplay.setObjectName(u"piDisplay")
+        self.piDisplay.setGeometry(QRect(670, 320, 251, 41))
+        self.piDisplay.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
+        self.restartButton = QPushButton(self.centralwidget)
+        self.restartButton.setObjectName(u"restartButton")
+        self.restartButton.setGeometry(QRect(690, 400, 231, 71))
+        font = QFont()
+        font.setPointSize(12)
+        self.restartButton.setFont(font)
+        self.restartButton.setIconSize(QSize(20, 20))
+        self.restartButton.setAutoDefault(False)
+        self.speedDisplay = QLabel(self.centralwidget)
         self.speedDisplay.setObjectName(u"speedDisplay")
-
-        self.Editables.addWidget(self.speedDisplay)
-
-        self.speedSlider = QSlider(self.verticalLayoutWidget)
+        self.speedDisplay.setGeometry(QRect(370, 320, 111, 21))
+        self.speedSlider = QSlider(self.centralwidget)
         self.speedSlider.setObjectName(u"speedSlider")
+        self.speedSlider.setGeometry(QRect(30, 320, 319, 23))
         self.speedSlider.setMinimum(1)
         self.speedSlider.setMaximum(10)
         self.speedSlider.setOrientation(Qt.Horizontal)
         self.speedSlider.setTickPosition(QSlider.TicksAbove)
         self.speedSlider.setTickInterval(0)
-
-        self.Editables.addWidget(self.speedSlider)
-
-        self.animationLabel = QLabel(self.centralwidget)
-        self.animationLabel.setObjectName(u"animationLabel")
-        self.animationLabel.setGeometry(QRect(12, 0, 1021, 811))
-        self.piDisplay = QLabel(self.centralwidget)
-        self.piDisplay.setObjectName(u"piDisplay")
-        self.piDisplay.setGeometry(QRect(1040, 0, 309, 211))
-        self.restartButton = QPushButton(self.centralwidget)
-        self.restartButton.setObjectName(u"restartButton")
-        self.restartButton.setGeometry(QRect(1040, 360, 241, 29))
-        self.restartButton.setAutoDefault(False)
+        self.massEditor = QLineEdit(self.centralwidget)
+        self.massEditor.setObjectName(u"massEditor")
+        self.massEditor.setGeometry(QRect(30, 410, 319, 28))
+        self.massDisplay = QLabel(self.centralwidget)
+        self.massDisplay.setObjectName(u"massDisplay")
+        self.massDisplay.setGeometry(QRect(350, 410, 191, 21))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1350, 25))
+        self.menubar.setGeometry(QRect(0, 0, 959, 25))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -83,10 +78,10 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.massDisplay.setText(QCoreApplication.translate("MainWindow", u"Mass of right rectangle : ", None))
-        self.speedDisplay.setText(QCoreApplication.translate("MainWindow", u"Speed : ", None))
         self.animationLabel.setText("")
         self.piDisplay.setText(QCoreApplication.translate("MainWindow", u"current value of pi : ", None))
         self.restartButton.setText(QCoreApplication.translate("MainWindow", u"Restart", None))
+        self.speedDisplay.setText(QCoreApplication.translate("MainWindow", u"Speed : ", None))
+        self.massDisplay.setText(QCoreApplication.translate("MainWindow", u"Mass of right rectangle : ", None))
     # retranslateUi
 
