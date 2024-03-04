@@ -8,15 +8,11 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
-from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
-    QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QMainWindow,
-    QMenuBar, QPushButton, QSizePolicy, QSlider,
+from PySide6.QtCore import (QCoreApplication, QMetaObject, QRect,
+    QSize, Qt)
+from PySide6.QtGui import QFont
+from PySide6.QtWidgets import (QLabel, QLineEdit,
+    QMenuBar, QPushButton, QSlider,
     QStatusBar, QWidget)
 
 class Ui_MainWindow(object):
@@ -35,11 +31,11 @@ class Ui_MainWindow(object):
 "")
         self.piDisplay = QLabel(self.centralwidget)
         self.piDisplay.setObjectName(u"piDisplay")
-        self.piDisplay.setGeometry(QRect(670, 320, 251, 41))
+        self.piDisplay.setGeometry(QRect(670, 330, 251, 41))
         self.piDisplay.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
         self.restartButton = QPushButton(self.centralwidget)
         self.restartButton.setObjectName(u"restartButton")
-        self.restartButton.setGeometry(QRect(690, 400, 231, 71))
+        self.restartButton.setGeometry(QRect(670, 400, 231, 71))
         font = QFont()
         font.setPointSize(12)
         self.restartButton.setFont(font)
@@ -47,10 +43,10 @@ class Ui_MainWindow(object):
         self.restartButton.setAutoDefault(False)
         self.speedDisplay = QLabel(self.centralwidget)
         self.speedDisplay.setObjectName(u"speedDisplay")
-        self.speedDisplay.setGeometry(QRect(370, 320, 111, 21))
+        self.speedDisplay.setGeometry(QRect(30, 330, 111, 21))
         self.speedSlider = QSlider(self.centralwidget)
         self.speedSlider.setObjectName(u"speedSlider")
-        self.speedSlider.setGeometry(QRect(30, 320, 319, 23))
+        self.speedSlider.setGeometry(QRect(30, 360, 319, 23))
         self.speedSlider.setMinimum(1)
         self.speedSlider.setMaximum(10)
         self.speedSlider.setOrientation(Qt.Horizontal)
@@ -58,10 +54,10 @@ class Ui_MainWindow(object):
         self.speedSlider.setTickInterval(0)
         self.massEditor = QLineEdit(self.centralwidget)
         self.massEditor.setObjectName(u"massEditor")
-        self.massEditor.setGeometry(QRect(30, 410, 319, 28))
+        self.massEditor.setGeometry(QRect(30, 440, 371, 28))
         self.massDisplay = QLabel(self.centralwidget)
         self.massDisplay.setObjectName(u"massDisplay")
-        self.massDisplay.setGeometry(QRect(350, 410, 191, 21))
+        self.massDisplay.setGeometry(QRect(30, 400, 381, 21))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")

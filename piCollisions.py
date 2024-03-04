@@ -1,15 +1,13 @@
 import sys
-import random
-from PySide6 import QtCore, QtWidgets, QtGui
-from PySide6.QtCore import QPropertyAnimation, QPoint, QRect, QSize, Qt, SIGNAL, QObject, QTimer
-from PySide6.QtWidgets import QWidget, QMainWindow, QLabel
-from PySide6.QtGui import QPainter, QPaintEvent, QPixmap, QColor, QColorConstants, QIcon
+from PySide6 import QtWidgets
+from PySide6.QtCore import SIGNAL, QTimer
+from PySide6.QtGui import QPainter, QPixmap, QColor, QPen
 import collisions
 from ui_mainwindow import Ui_MainWindow
 
 RECT_HEIGHT = 100
 RECT_WIDTH = 75
-SCREEN_HEIGHT = 700
+SCREEN_HEIGHT = 164
 SCREEN_WIDTH = 700
 SCREEN_XPOS = 700
 SCREEN_YPOS = 250
@@ -28,30 +26,34 @@ class UI(QtWidgets.QMainWindow):
         self.speedSlider = self.ui.speedSlider
         self.restartButton = self.ui.restartButton
 
-        self.massDisplay.setText(f"Mass of right rectangle : {100}kg")
+        self.setupDisplays()
+        self.setupSimulation()
+        self.setupInputs()
+
+    def setupDisplays(self):
+        self.massDisplay.setText(f"Mass of right rectangle : {100}kg (only estimates pi for powers of 100)")
         self.speedDisplay.setText(f"speed : {1}")
-        self.massEditor.setPlaceholderText("100")
-        self.massEditor.setInputMask("000000000000000")
-        #self.massEditor.setInputMask("9")
+        self.massEditor.setText("100")
         self.pixmap.fill(QColor(255,255,255))
-        # painter = QPainter(self.pixmap)
         self.ui.animationLabel.setPixmap(self.pixmap)
 
+    def setupSimulation(self):
         self.simulationTimer = QTimer(self)
         self.simulationTimer.setInterval(10)
         self.simulationTimer.timeout.connect(self.animate)
         self.simulationTimer.start()
 
+    def setupInputs(self):
         self.restartButton.clicked.connect(self.simulation.restart)
         self.speedSlider.valueChanged.connect(self.setSpeed)
-        self.massEditor.textChanged.connect(self.changeMass)
+        self.massEditor.textChanged.connect(self.changeMass)        
 
     def setSpeed(self, value):
         self.speedDisplay.setText(f"speed : {value}")
         self.simulationTimer.setInterval(10-value+1)
 
     def changeMass(self):
-        if self.massEditor.text() == '':
+        if not self.massEditor.text().isnumeric():
             mass = 0
         else:
             mass = int(self.massEditor.text())
@@ -61,22 +63,19 @@ class UI(QtWidgets.QMainWindow):
 
     def animate(self):
         painter = QPainter(self.pixmap)
-        leftPos, rightPos = self.simulation.animate()
+        leftPos, rightPos = self.simulation.simulate()
         self.pixmap.fill(QColor(255,255,255))
-        painter.drawRect(WALL_XPOS + leftPos, 100, RECT_WIDTH, RECT_HEIGHT)
-        painter.drawRect(WALL_XPOS + rightPos, 100, RECT_WIDTH, RECT_HEIGHT)
+        painter.setPen(QPen(QColor(0,0,0), 5))
+        painter.drawRect(WALL_XPOS + leftPos, SCREEN_HEIGHT, self.simulation.rectWidth, RECT_HEIGHT)
+        painter.drawRect(WALL_XPOS + rightPos, SCREEN_HEIGHT, self.simulation.rectWidth, RECT_HEIGHT)
         painter.end()
         self.ui.animationLabel.setPixmap(self.pixmap)
-
         piEstimation = self.simulation.estimation()
         self.ui.piDisplay.setText(f"current value of pi : {piEstimation}")
 
 if __name__ == "__main__":
-    #app = QtWidgets.QApplication([])
     app = QtWidgets.QApplication(sys.argv)
-    collisions = collisions.Collisions(RECT_WIDTH)
-    #mainWindow = MainWindowCol()
-    #mainWindow.show()
+    collisions = collisions.Collisions()
     window = UI(collisions)
     window.show()
     sys.exit(app.exec())
